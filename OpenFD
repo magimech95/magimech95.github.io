@@ -1,0 +1,26 @@
+from database import Func
+from functionality.TransferFunds import TransferFunds
+ 
+class OpenFD():
+    def __init__(self, cid=None):
+        self.__cid=cid
+        self.login()
+        self.openFD()
+       
+    def login(self):
+        while self.__cid is None:
+            cid = input("Enter customer Id: ")
+            pwd = input("Enter password: ")
+            self.__cid=Func.login(cid, pwd)
+ 
+    def openFD(self):
+        while True:
+            amount=int(input("Enter Amount: "))
+            acc_no=Func.open_fd_account(self.__cid, amount)
+            if acc_no:
+                print("FD opened successfully with account number: "+acc_no)
+                break
+        choice=input("Do you wish to transfer funds? Enter 'Y' or 'N': ")
+        if choice.upper()=='Y':
+            TransferFunds(self.__cid)
+ 
